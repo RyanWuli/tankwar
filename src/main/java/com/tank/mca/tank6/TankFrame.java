@@ -80,7 +80,7 @@ public class TankFrame extends Frame {
         g.setColor(color);
 
         tank.setSPEED(Main.goodTankSpeed); // 主坦克速度调快一点
-        System.out.println(tank.isLived());
+//        System.out.println(tank.isLived());
         if (tank.isLived()) {
             tank.paint(g);
         } else { // 把主坦克的块放到界面之外，否则触碰检测一直在
