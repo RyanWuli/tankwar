@@ -1,4 +1,4 @@
-package com.tank.mca.tank6;
+package com.tank.mca.tank7;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
