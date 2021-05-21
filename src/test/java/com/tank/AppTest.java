@@ -3,6 +3,13 @@ package com.tank;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import com.tank.mca.nettystudy7.TankMsg;
+import com.tank.mca.nettystudy7.TankMsgDecoder;
+import com.tank.mca.nettystudy7.TankMsgEncoder;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
+import io.netty.channel.embedded.EmbeddedChannel;
+import org.junit.Assert;
 import org.junit.Test;
 
 import javax.imageio.ImageIO;
@@ -59,5 +66,40 @@ public class AppTest
             Thread.sleep(1000);
             System.out.println(random.nextInt(4));
         }
+    }
+
+
+    /**
+     * ************************************** netty codec test ***********************************
+     */
+    @Test
+    public void codecTestEncoder() {
+        TankMsg tm = new TankMsg(10, 10);
+        EmbeddedChannel ec = new EmbeddedChannel(new TankMsgEncoder()); // 虚拟的 channel ，不是网络的
+        ec.writeOutbound(tm); // 往外写一个 message
+
+        ByteBuf buf = ec.readOutbound();
+        int x = buf.readInt();
+        int y = buf.readInt();
+
+        Assert.assertTrue(x == 10 && y == 10);
+        buf.release();
+    }
+
+    @Test
+    public void codecTestEncoder2() {
+
+        // tankMsg 转换为 byteBuf
+        ByteBuf buf = Unpooled.buffer();
+        TankMsg tm = new TankMsg(10, 10);
+        buf.writeInt(tm.x);
+        buf.writeInt(tm.y);
+
+        EmbeddedChannel ec = new EmbeddedChannel(new TankMsgEncoder(), new TankMsgDecoder()); // byteBuf 会略过 encoder 直接到 decoder
+        ec.writeInbound(buf.duplicate()); // writeInbound 往 server 端（测试端只有一个）方向写
+
+        TankMsg t = ec.readInbound(); // 读进来 （解码）
+
+        Assert.assertTrue(tm.x == 10 && tm.y == 10);
     }
 }
