@@ -26,6 +26,12 @@ netty study 6 - 处理 ui 线程阻塞等问题
 
 netty study 7 - netty 编码解码器的使用
 
+netty study8_tank - netty 版 tank 开始，tank 恢复至 tank6 版本（完成了网络版加载 good tanks）
+
+netty study8_tank - 封装 msg ，tankJoinMsg 继承 msg，方便扩展 msg
+
+netty study10_tank - 添加新的消息
+
 
 
 
@@ -33,3 +39,10 @@ netty study 7 - netty 编码解码器的使用
 包括了 加载项目中的文件方式、netty 编码解码嵌入式测试
 
 unit 用 assets 的好处：修改了代码 直接跑 绿色 就通过，不用每次测试都用人去判断是否通过（相比 println），主要是测试的复用性利用
+
+
+
+
+### 延伸
+#### TCP - Nagle 算法
+比较小的包会累积成一个大包然后再发出去（游戏不适合）
